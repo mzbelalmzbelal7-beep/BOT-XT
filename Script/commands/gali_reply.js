@@ -12,13 +12,13 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	var { threadID, messageID } = event;
-	if (event.body.indexOf("Shahadat Bokasoda")==0 || event.body.indexOf("Sahadat mc")==0 || event.body.indexOf("chod")==0 || event.body.indexOf("Sahadat nodir pola")==0 || event.body.indexOf("bc")==0 || event.body.indexOf("Shahadat re chudi")==0 || event.body.indexOf("shahadat re chod")==0 || event.body.indexOf("Shahadat Abal")==0 || event.body.indexOf("Shahadat Boakachoda")==0 || event.body.indexOf("Shahadat madarchod")==0 || event.body.indexOf("Sahadat re chudi")==0 || event.body.indexOf("Sahu Bokachoda")==0) {
+	if (event.body.indexOf("চাঁদের পাহাড় কে চুদি")==0 || event.body.indexOf("🖕")==0 || event.body.indexOf("🖕🖕")==0 || event.body.indexOf(" চাঁদের পাহাড় লুচ্চা")==0 || event.body.indexOf("বোকাচোদা")==0 || event.body.indexOf("এই শালা")==0 || event.body.indexOf("মাগির পোলা")==0 || event.body.indexOf("বালের গ্রুপ")==0 || event.body.indexOf("এই শালা চুপ")==0 || event.body.indexOf("তুই একটা বোকাচোদা")==0 || event.body.indexOf("তোর মাকে চুদি")==0 || event.body.indexOf("বট রে কিক মার")==0) {
 		var msg = {
-				body: "তোর মতো বোকাচোদা রে আমার বস শাহাদাৎ চু*দা বাদ দিছে🤣\nসাহু এখন আর hetars চুষে না🥱😈",
+				body: "তোর মতো বোকাচোদা রে আমার বস চাঁদের পাহাড় চু*দা বাদ দিছে🤣\n চাঁদের পাহাড় এখন আর hetars চুষে না🥱 তোরে ওপেনে ভরে দেব 😈",
 			}
 			api.sendMessage(msg, threadID, messageID);
 		}
 	}
 	module.exports.run = function({ api, event, client, __GLOBAL }) {
 
-  }
+}

@@ -2,7 +2,7 @@ module.exports.config = {
  name: "fixspam",
  version: "1.0.0",
  hasPermssion: 0,
- credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+ credits: "BELAL BOTX666",
  description: "gile dile ban<3",
  commandCategory: "noprefix",
  usages: '',
@@ -18,8 +18,8 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
  
  const bannedWords = [
  "chudi", "baler bot", "chutiya bot", "bot bokasoda", "bot tor boss re chudi",
- "বালের বট", "ভোদার বট", "ধোনের বট", "তোর বস রে চুদি", "শাহাদাৎ যে চুদি",
- "sahadat mc", "mc Sahu", "bokachoda sahu", "fuck you", "sex", "sexy",
+ "বালের বট", "ভোদার বট", "ধোনের বট", "তোর বস রে চুদি", "চাঁদের পাহাড় যে চুদি",
+ "Belal mc", "mc Sahu", "bokachoda sahu", "fuck you", "sex", "sexy",
  "hedar bot", "বট চুদি", "crazy bot", "bc bot", "khankir polar bot",
  "bot tor heda", "হেড়ার বট", "bot paylac rồi", "con bot lòn", "cmm bot",
  "clap bot", "bot ncc", "bot oc", "bot óc", "bot óc chó", "cc bot",
@@ -32,7 +32,7 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
  const userName = await Users.getNameUser(senderID);
  
  const warningMessage = {
- body: `» Notice from Owner SA HU «\n\n${userName}, You are stupid for cursing bots so bots automatically banned you from the system`
+ body: `» Notice from Owner চাঁদের পাহাড় «\n\n${userName}, You are stupid for cursing bots so bots automatically banned you from the system`
  };
 
  

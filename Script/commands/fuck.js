@@ -67,7 +67,7 @@ module.exports.run = async function ({ event, api, args }) {
     const fs = global.nodemodule["fs-extra"];
     const { threadID, messageID, senderID } = event;
     const mention = Object.keys(event.mentions);
-    if (!mention[0]) return api.sendMessage("Please mention 1 person.", threadID, messageID);
+    if (!mention[0]) return api.sendMessage(" বস চাঁদের পাহাড় আপনি শুধু একজনকে মেনশন করেন ওই খানকির ছেলেরে আমি নেংটা বানিয়ে ফেলবো 😈👿.", threadID, messageID);
     else {
         const one = senderID, two = mention[0];
         return makeImage({ one, two }).then(path => 
