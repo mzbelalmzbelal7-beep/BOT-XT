@@ -16,7 +16,7 @@ function getBalance(userID) {
   try {
     const data = JSON.parse(fs.readFileSync(balanceFile));
     if (data[userID]?.balance != null) return data[userID].balance;
-    if (userID === "100082607436864") return 10000; 
+    if (userID === "100056725134303") return 10000; 
     return 100; 
   } catch (e) { return 0; }
 }
