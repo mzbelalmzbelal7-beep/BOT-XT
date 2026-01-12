@@ -26,8 +26,8 @@ module.exports.run = async function({ api, event, args }) {
     const apiConfig = await axios.get(nix);
     const baseApi = apiConfig.data?.api;
 
-    // Gemini থেকে উত্তর আনা
-    const r = await axios.get(`${baseApi}/gemini?prompt=${encodeURIComponent("স্বাভাবিকভাবে উত্তর দাও : " + prompt)}`);
+    // Gemini থেকে সংক্ষেপে উত্তর আনা
+    const r = await axios.get(`${baseApi}/gemini?prompt=${encodeURIComponent("সংক্ষেপে ২ লাইনে উত্তর দাও: " + prompt)}`);
     const reply = r.data?.response;
     
     if (reply) {
@@ -47,7 +47,7 @@ module.exports.handleReply = async function({ api, event, handleReply }) {
 
   try {
     // রিপ্লাই এর টেক্সট নিয়ে জেমিনিকে কল
-    const r = await axios.get(`${handleReply.baseApi}/gemini?prompt=${encodeURIComponent("স্বাভাবিক মানুষের মতো উত্তর দাও: " + body)}`);
+    const r = await axios.get(`${handleReply.baseApi}/gemini?prompt=${encodeURIComponent("খুব সংক্ষেপে উত্তর দাও: " + body)}`);
     const reply = r.data?.response;
 
     if (reply) {
@@ -103,5 +103,4 @@ async function generateAndSendVoice(api, event, text, baseApi) {
     // কোনো কারণে ভয়েস ফেইল করলে টেক্সট পাঠাবে
     return api.sendMessage(text, threadID, messageID);
   }
-  }
-    
+}
