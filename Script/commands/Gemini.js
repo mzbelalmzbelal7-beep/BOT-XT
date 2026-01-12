@@ -26,8 +26,8 @@ module.exports.run = async function({ api, event, args }) {
     const apiConfig = await axios.get(nix);
     const baseApi = apiConfig.data?.api;
 
-    // পরিবর্তন এখানে: সংক্ষেপে না বলে বিস্তারিত উত্তর দিতে বলা হয়েছে
-    const r = await axios.get(`${baseApi}/gemini?prompt=${encodeURIComponent("নিচের বিষয়টির উত্তর কোনো শর্টকাট ছাড়া একদম স্বাভাবিক এবং বিস্তারিত ভাবে দাও: " + prompt)}`);
+    // Gemini থেকে উত্তর আনা
+    const r = await axios.get(`${baseApi}/gemini?prompt=${encodeURIComponent("স্বাভাবিকভাবে উত্তর দাও : " + prompt)}`);
     const reply = r.data?.response;
     
     if (reply) {
@@ -46,8 +46,8 @@ module.exports.handleReply = async function({ api, event, handleReply }) {
   api.setMessageReaction("⏳", messageID, () => {}, true);
 
   try {
-    // পরিবর্তন এখানে: রিপ্লাই মোডেও বড় বড় এবং স্বাভাবিক উত্তর আসবে
-    const r = await axios.get(`${handleReply.baseApi}/gemini?prompt=${encodeURIComponent("আগের কথার প্রেক্ষিতে কোনো শর্টকাট ছাড়া বিস্তারিত এবং স্বাভাবিক উত্তর দাও: " + body)}`);
+    // রিপ্লাই এর টেক্সট নিয়ে জেমিনিকে কল
+    const r = await axios.get(`${handleReply.baseApi}/gemini?prompt=${encodeURIComponent("স্বাভাবিক মানুষের মতো উত্তর দাও: " + body)}`);
     const reply = r.data?.response;
 
     if (reply) {
@@ -103,4 +103,5 @@ async function generateAndSendVoice(api, event, text, baseApi) {
     // কোনো কারণে ভয়েস ফেইল করলে টেক্সট পাঠাবে
     return api.sendMessage(text, threadID, messageID);
   }
-}
+  }
+    
