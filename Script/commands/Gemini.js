@@ -7,7 +7,7 @@ module.exports.config = {
   version: "10.0.0",
   hasPermssion: 0,
   credits: "Gemini AI Voice",
-  description: "প্রথম প্রশ্ন এবং রিপ্লাই—সবই এখন ১০০% ভয়েসে আসবে",
+  description: "এখন গিমিনি কোনো শর্টকাট ছাড়াই বিস্তারিত ভয়েস উত্তর দেবে",
   commandCategory: "AI",
   usages: "[আপনার প্রশ্ন]",
   cooldowns: 1,
@@ -26,12 +26,11 @@ module.exports.run = async function({ api, event, args }) {
     const apiConfig = await axios.get(nix);
     const baseApi = apiConfig.data?.api;
 
-    // Gemini থেকে সংক্ষেপে উত্তর আনা
-    const r = await axios.get(`${baseApi}/gemini?prompt=${encodeURIComponent("সংক্ষেপে ২ লাইনে উত্তর দাও: " + prompt)}`);
+    // কোনো শর্টকাট ছাড়াই বিস্তারিত উত্তর দেওয়ার নির্দেশ
+    const r = await axios.get(`${baseApi}/gemini?prompt=${encodeURIComponent("নিচের বিষয়টির উত্তর কোনো শর্টকাট বা কাটাকাটি ছাড়া একদম বিস্তারিত এবং সুন্দরভাবে গুছিয়ে দাও: " + prompt)}`);
     const reply = r.data?.response;
     
     if (reply) {
-      // ভয়েসে পাঠানোর জন্য মেইন ফাংশন কল
       return await generateAndSendVoice(api, event, reply, baseApi);
     }
   } catch (error) {
@@ -46,12 +45,11 @@ module.exports.handleReply = async function({ api, event, handleReply }) {
   api.setMessageReaction("⏳", messageID, () => {}, true);
 
   try {
-    // রিপ্লাই এর টেক্সট নিয়ে জেমিনিকে কল
-    const r = await axios.get(`${handleReply.baseApi}/gemini?prompt=${encodeURIComponent("খুব সংক্ষেপে উত্তর দাও: " + body)}`);
+    // রিপ্লাইতেও বিস্তারিত আলোচনা করার নির্দেশ
+    const r = await axios.get(`${handleReply.baseApi}/gemini?prompt=${encodeURIComponent("আগের কথার প্রেক্ষিতে কোনো কিছু বাদ না দিয়ে বিস্তারিত বুঝিয়ে বলো: " + body)}`);
     const reply = r.data?.response;
 
     if (reply) {
-      // রিপ্লাই এর উত্তরটিও ভয়েসে পাঠানো নিশ্চিত করা হলো
       return await generateAndSendVoice(api, event, reply, handleReply.baseApi);
     }
   } catch (error) {
@@ -59,19 +57,15 @@ module.exports.handleReply = async function({ api, event, handleReply }) {
   }
 };
 
-// 🔊 মেইন ভয়েস ইঞ্জিন (প্রথম মেসেজ ও রিপ্লাই উভয়ের জন্য)
 async function generateAndSendVoice(api, event, text, baseApi) {
   const { threadID, messageID, senderID } = event;
-  
-  // ক্যাশ ফোল্ডার নিশ্চিত করা
   const cacheDir = path.join(__dirname, "cache");
   if (!fs.existsSync(cacheDir)) fs.ensureDirSync(cacheDir);
   
   const cachePath = path.join(cacheDir, `${Date.now()}_gemini.mp3`);
 
   try {
-    // গুগলের হাই-কোয়ালিটি টিটিএস লিঙ্ক
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=bn&client=tw-ob`;
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=bn&client=tw-ob&ttsspeed=1`;
     
     const response = await axios({
       method: 'get',
@@ -80,17 +74,14 @@ async function generateAndSendVoice(api, event, text, baseApi) {
     });
 
     fs.writeFileSync(cachePath, Buffer.from(response.data));
-
     api.setMessageReaction("✅", messageID, () => {}, true);
 
     return api.sendMessage({
       body: `🎙️ 𝗚𝗲𝗺𝗶𝗻𝗶 𝗩𝗼𝗶𝗰𝗲 𝗥𝗲𝘀𝗽𝗼𝗻𝘀𝗲:\n\n${text}`,
       attachment: fs.createReadStream(cachePath)
     }, threadID, (err, info) => {
-      // ভয়েস পাঠানোর পর ফাইল ডিলিট
       if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
       
-      // পরবর্তী রিপ্লাই এর জন্য লুপ বজায় রাখা
       global.client.handleReply.push({
         name: module.exports.config.name,
         messageID: info.messageID,
@@ -100,7 +91,6 @@ async function generateAndSendVoice(api, event, text, baseApi) {
     }, messageID);
 
   } catch (e) {
-    // কোনো কারণে ভয়েস ফেইল করলে টেক্সট পাঠাবে
     return api.sendMessage(text, threadID, messageID);
   }
-}
+    }
